@@ -1,0 +1,129 @@
+<!--
+ * @Author: error: git config user.name && git config user.email & please set dead value or install git
+ * @Date: 2022-06-25 07:28:50
+ * @LastEditors: cheng 1797187146@qq.com
+ * @LastEditTime: 2022-07-16 16:57:44
+ * @FilePath: \2021.06.23 付费课-vue入门学习指导\1.html
+ * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
+-->
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      * {
+        border: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      .container {
+        height: 480px;
+        width: 510px;
+        background-image: url(./img/background.png);
+        margin: 0 auto;
+        padding-left: 20px;
+        position: relative;
+      }
+      .range {
+        /* background-color: aliceblue; */
+        width: 450px;
+        height: 415px;
+        position: absolute;
+        margin-left: 12px;
+        margin-top: 30px;
+      }
+      .gameid1 {
+        position: absolute;
+        top: 160px;
+        left: 160px;
+      }
+      .gameid2 {
+        position: absolute;
+        transition: 0.3s;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="range">
+        <img class="gameid1" src="./img/hero.png" alt="" /><!--主角-->
+        <!-- <img class="gameid2" src="./img/monster.png" alt="" /> -->
+      </div>
+    </div>
+    <script>
+      var range = document.querySelector(".range"); //容器
+      var gameid1 = range.querySelector(".gameid1"); //主角
+      var gameid2 = range.querySelector(".gameid2"); //怪物
+      // 主角移动监听事件
+      window.addEventListener("keydown", function (e) {
+        if (e.key === "ArrowUp") {
+          if (gameid1.offsetTop <= 0) {
+            gameid1.style.top = 0;
+            return;
+          }
+          gameid1.style.top = gameid1.offsetTop - 32 + "px";
+        }
+        if (e.key === "ArrowDown") {
+          if (gameid1.offsetTop >= range.offsetHeight - 32) {
+            gameid1.style.top = range.offsetHeight - 32 + "px";
+            return;
+          }
+          gameid1.style.top = gameid1.offsetTop + 32 + "px";
+        }
+        if (e.key === "ArrowLeft") {
+          if (gameid1.offsetLeft <= 0) {
+            gameid1.style.left = 0;
+            return;
+          }
+          gameid1.style.left = gameid1.offsetLeft - 32 + "px";
+        }
+        if (e.key === "ArrowRight") {
+          if (gameid1.offsetLeft >= range.offsetWidth - 33) {
+            gameid1.style.left = gameid1.offsetWidth - 32 + "px";
+            return;
+          } else {
+            gameid1.style.left = gameid1.offsetLeft + 32 + "px";
+            // console.log("右", gameid1.offsetLeft);
+          }
+        }
+      });
+
+      // 创建多个怪兽入场
+      let a = 0;
+      const time = setInterval(function () {
+        const wnum = Math.floor(Math.random() * 14) * 32; //生成随机数
+        const monster = document.createElement("img");
+        monster.src = "./img/monster.png";
+        monster.classList.add("gameid2");
+        monster.style.left = wnum + "px";
+        var b = 0;
+        var s = 32;
+
+        const mov = setInterval(function () {
+          const g = gameid1.style.top;
+          b = b + s;
+          if (b >= range.offsetHeight - 32) {
+            s = -s;
+          }
+          if (b <= 0) {
+            s = -s;
+          }
+          monster.style.top = b + "px";
+          if (b === gameid1.offsetTop && wnum === gameid1.offsetLeft) {
+            alert("失败了");
+
+            return;
+          }
+        }, 1000);
+        range.appendChild(monster);
+        a++;
+        if (a === 10) {
+          clearTimeout(time);
+        }
+      }, 1000);
+    </script>
+  </body>
+</html>
